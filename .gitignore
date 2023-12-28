@@ -1,0 +1,9 @@
+backup/
+.backup/
+lib/
+bin/
+__history/
+*.lps
+*.local
+*.res
+*.identcache

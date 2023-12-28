@@ -27,35 +27,98 @@ Not good for:
 
 ## 🚀 Getting started
 
-@TODO
+#### Free Pascal/Lazarus:
+  * FPC ≥ 3.2.0 required (because array operators are used).
+  * Clone or download this repository and compile the package **sqidspkg.lpk**.
+  * Add **sqidspkg** to the Required Packages of your application.
+  
+#### Delphi:
+  * Tested with Delphi 11, should work with Delphi ≥ XE7 (which introduced string-like operations on dynamic arrays).
+  * Clone or download this repository.
+  * Add the **src** subfolder to your project's search path.
 
 ## 👩‍💻 Examples
 
 Simple encode & decode:
 
 ```pascal
-@TODO
+var
+  Id: string;
+  Numbers: TNumbers;
+begin
+  with TSqids.Create do
+  try
+    Id := Encode([1, 2, 3]); // '86Rf07'
+    Numbers := Decode(Id); // [1, 2, 3]
+  finally
+    Free;
+  end;
+end;
 ```
 
 > **Note**
 > 🚧 Because of the algorithm's design, **multiple IDs can decode back into the same sequence of numbers**. If it's important to your design that IDs are canonical, you have to manually re-encode decoded numbers and check that the generated ID matches.
 
+Encoding & decoding just one number:
+
+```pascal
+var
+  Id: string;
+  Number: TNumber;
+begin
+  with TSqids.Create do
+  try
+    Id := EncodeSingle(1); // 'Uk'
+    Number := DecodeSingle(Id); // 1
+  finally
+    Free;
+  end;
+end;
+```
+
 Enforce a *minimum* length for IDs:
 
 ```pascal
-@TODO
+var
+  Id: string;
+begin
+  with TSqids.Create(10) do
+  try
+    Id := Encode([1, 2, 3]); // '86Rf07xd4z'
+  finally
+    Free;
+  end;
+end;
 ```
 
 Randomize IDs by providing a custom alphabet:
 
 ```pascal
-@TODO
+var
+  Id: string;
+begin
+  with TSqids.Create('FxnXM1kBN6cuhsAvjW3Co7l2RePyY8DwaU04Tzt9fHQrqSVKdpimLGIJOgb5ZE') do
+  try
+    Id := Encode([1, 2, 3]); // 'B4aajs'
+  finally
+    Free;
+  end;
+end;
 ```
 
 Prevent specific words from appearing anywhere in the auto-generated IDs:
 
 ```pascal
-@TODO
+var
+  Id: string;
+begin
+  with TSqids.Create(['86Rf07']) do
+  try
+    Id := Encode([1, 2, 3]); // 'se8ojk'
+  finally
+    Free;
+  end;
+end;
 ```
 
 ## 📝 License
