@@ -1,5 +1,7 @@
 # [Sqids Pascal](https://sqids.org/pascal)
 
+![Build and Test workflow](https://github.com/sqids/sqids-pascal/actions/workflows/build-test.yml/badge.svg?event=push)
+
 [Sqids](https://sqids.org/pascal) (*pronounced "squids"*) is a small library that lets you **generate unique IDs from numbers**. It's good for link shortening, fast & URL-safe ID generation and decoding back into numbers for quicker database lookups.
 
 Features:

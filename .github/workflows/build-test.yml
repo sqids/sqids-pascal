@@ -1,0 +1,40 @@
+name: Build and Test
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build-test"
+  build-test:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      # Install FPC
+      - name: Install FPC
+        run: |
+          export DEBIAN_FRONTEND=noninteractive
+          sudo apt-get update
+          sudo apt-get install -y fpc
+
+      # Compile tests
+      - name: Compile tests
+        run: fpc -Fu$GITHUB_WORKSPACE/src $GITHUB_WORKSPACE/tests/fpc/testsqids.lpr
+
+      # Run compiled test program
+      - name: Run tests
+        run: $GITHUB_WORKSPACE/tests/fpc/testsqids
+        
