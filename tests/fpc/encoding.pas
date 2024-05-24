@@ -24,6 +24,7 @@ type
     procedure IdWithInvalidCharacter;
     // out-of-range test not implemented:
     // compiler enforces that all numbers are within the range of a TNumber
+    procedure ExtremeValue;
   end;
 
 implementation
@@ -184,6 +185,20 @@ begin
   with TSqids.Create do
   try
     AssertTrue(Decode('*').Equals([]));
+  finally
+    Free;
+  end;
+end;
+
+procedure TTestEncoding.ExtremeValue;
+const
+  Number: TNumber = $FFFFFFFFFFFFFFFF;
+  Id = 'eIkvoXH40Lmd'; // from a previous EncodeSingle
+begin
+  with TSqids.Create do
+  try
+    AssertEquals(EncodeSingle(Number), Id);
+    AssertTrue(DecodeSingle(Id) = Number);
   finally
     Free;
   end;
